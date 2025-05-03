@@ -92,6 +92,12 @@ module.exports = [
       'spaced-comment': 'warn',
 
       curly: ['error', 'all'],
+      'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'auto',
+        },
+      ],
     },
   },
   {
