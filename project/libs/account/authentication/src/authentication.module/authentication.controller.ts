@@ -1,10 +1,10 @@
 import { Body, Controller, Get, HttpStatus, Param, Post } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ApiResponseDescription } from '@project/core';
 import { fillDto } from '@project/helpers';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { UserRdo } from '../rdo/user.rdo';
+import { AuthApiResponseDescription } from './authentication.const';
 import { AuthenticationService } from './authentication.service';
 
 @ApiTags('authentication')
@@ -14,11 +14,11 @@ export class AuthenticationController {
 
   @ApiResponse({
     status: HttpStatus.CREATED,
-    description: ApiResponseDescription.UserCreated,
+    description: AuthApiResponseDescription.USER_CREATED,
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: ApiResponseDescription.UserExist,
+    description: AuthApiResponseDescription.USER_EXIST,
   })
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
@@ -29,11 +29,11 @@ export class AuthenticationController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: ApiResponseDescription.LoggedSuccess,
+    description: AuthApiResponseDescription.LOGGED_SUCCESS,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: ApiResponseDescription.LoggedError,
+    description: AuthApiResponseDescription.LOGGED_ERROR,
   })
   @Post('login')
   public async login(@Body() dto: LoginUserDto) {
@@ -44,11 +44,11 @@ export class AuthenticationController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: ApiResponseDescription.UserFound,
+    description: AuthApiResponseDescription.USER_FOUND,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: ApiResponseDescription.UserNotFound,
+    description: AuthApiResponseDescription.USER_NOT_FOUND,
   })
   @Get(':id')
   public async show(@Param('id') id: string) {

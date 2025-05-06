@@ -3,7 +3,7 @@ import { AuthUser } from '@project/core';
 import { UserEntity, UserRepository } from '@project/user';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { LoginUserDto } from '../dto/login-user.dto';
-import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from './authentication.constant';
+import { AuthServiceException } from './authentication.const';
 
 @Injectable()
 export class AuthenticationService {
@@ -27,7 +27,7 @@ export class AuthenticationService {
     const existUser = await this.userRepository.findByEmail(email);
 
     if (existUser) {
-      throw new ConflictException(AUTH_USER_EXISTS);
+      throw new ConflictException(AuthServiceException.AUTH_USER_EXISTS);
     }
 
     const userEntity = await new UserEntity(user).setPassword(password);
@@ -43,11 +43,11 @@ export class AuthenticationService {
     const existUser = await this.userRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(AuthServiceException.AUTH_USER_NOT_FOUND);
     }
 
     if (!(await existUser.comparePassword(password))) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
+      throw new UnauthorizedException(AuthServiceException.AUTH_USER_PASSWORD_WRONG);
     }
 
     return existUser;
@@ -57,7 +57,7 @@ export class AuthenticationService {
     const user = await this.userRepository.findById(id);
 
     if (!user) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(AuthServiceException.AUTH_USER_NOT_FOUND);
     }
 
     return user;
