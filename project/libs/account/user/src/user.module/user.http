@@ -1,0 +1,17 @@
+# Создание нового пользователя
+POST http://localhost:3000/api/user/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "user@test.com",
+    "password": "123456",
+    "firstname": "Keks",
+    "lastname": "Smith"
+}
+
+###
+ 
+ # Получение пользователя по ID
+GET http://localhost:3000/api/user/50fe6467-b1c5-489c-b576-1fc84a8bfc9e HTTP/1.1
+ 
+###

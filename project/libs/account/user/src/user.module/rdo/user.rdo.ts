@@ -50,6 +50,13 @@ export class UserRdo {
   public publicationsCount: number;
 
   @ApiProperty({
+    description: 'User subscribers amount',
+    example: '0',
+  })
+  @Expose()
+  public subscribersCount: number;
+
+  @ApiProperty({
     description: 'User subscribers',
     example: ['12344', '12345'],
   })

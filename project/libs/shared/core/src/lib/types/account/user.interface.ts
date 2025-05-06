@@ -6,6 +6,7 @@ export interface User {
   avatar?: string;
   createAt: Date;
   publicationsCount: number;
+  subscribersCount: number;
   subscribers?: string[];
   subscriptions?: string[];
 }
