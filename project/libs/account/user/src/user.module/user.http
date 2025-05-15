@@ -11,7 +11,7 @@ Content-Type: application/json
 
 ###
  
- # Получение пользователя по ID
+# Получение пользователя по ID
 GET http://localhost:3000/api/user/50fe6467-b1c5-489c-b576-1fc84a8bfc9e HTTP/1.1
  
 ###

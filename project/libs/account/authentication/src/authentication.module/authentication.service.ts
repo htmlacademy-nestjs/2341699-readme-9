@@ -12,9 +12,7 @@ export class AuthenticationService {
 
     const existUser = await this.userRepository.findByEmail(email);
 
-    if (!existUser) {
-      throw new NotFoundException(AuthServiceException.USER_NOT_FOUND);
-    }
+    if (!existUser) throw new NotFoundException(AuthServiceException.USER_NOT_FOUND);
 
     if (!(await existUser.comparePassword(password))) {
       throw new UnauthorizedException(AuthServiceException.USER_PASSWORD_WRONG);

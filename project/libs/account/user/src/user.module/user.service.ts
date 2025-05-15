@@ -14,9 +14,7 @@ export class UserService {
 
     const existUser = await this.userRepository.findByEmail(email);
 
-    if (existUser) {
-      throw new ConflictException(UserServiceException.USER_EXISTS);
-    }
+    if (existUser) throw new ConflictException(UserServiceException.USER_EXISTS);
 
     const user: AuthUser = {
       email,
@@ -41,9 +39,7 @@ export class UserService {
   public async getUser(id: string) {
     const user = await this.userRepository.findById(id);
 
-    if (!user) {
-      throw new NotFoundException(UserServiceException.USER_NOT_FOUND);
-    }
+    if (!user) throw new NotFoundException(UserServiceException.USER_NOT_FOUND);
 
     return user;
   }

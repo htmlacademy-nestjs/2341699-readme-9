@@ -1,5 +1,5 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Post } from '@nestjs/common';
+import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { fillDto } from '@project/helpers';
 import { UserRdo } from '../../../user/src/user.module/rdo/user.rdo';
 import { AuthApiResponseDescription } from './authentication.const';
@@ -11,15 +11,8 @@ import { LoginUserDto } from './dto/login-user.dto';
 export class AuthenticationController {
   constructor(private readonly authService: AuthenticationService) {}
 
-  @ApiResponse({
-    type: UserRdo,
-    status: HttpStatus.OK,
-    description: AuthApiResponseDescription.LOGGED_SUCCESS,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: AuthApiResponseDescription.LOGGED_ERROR,
-  })
+  @ApiOkResponse({ type: UserRdo, description: AuthApiResponseDescription.LOGGED_SUCCESS })
+  @ApiNotFoundResponse({ description: AuthApiResponseDescription.LOGGED_ERROR })
   @Post('login')
   public async login(@Body() dto: LoginUserDto) {
     const verifiedUser = await this.authService.verifyUser(dto);
