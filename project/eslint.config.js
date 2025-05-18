@@ -26,7 +26,7 @@ module.exports = [
       sourceType: 'module',
 
       parserOptions: {
-        project: 'tsconfig.json',
+        project: 'tsconfig.base.json',
         tsconfigRootDir: __dirname,
       },
     },
@@ -92,6 +92,12 @@ module.exports = [
       'spaced-comment': 'warn',
 
       curly: ['error', 'all'],
+      'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'auto',
+        },
+      ],
     },
   },
   {
