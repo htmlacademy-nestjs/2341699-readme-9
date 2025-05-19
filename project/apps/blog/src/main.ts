@@ -1,4 +1,5 @@
 import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigDocumentBuilder, GLOBAL_PREFIX } from './app/app.const';
@@ -18,7 +19,8 @@ async function bootstrap() {
 
   app.setGlobalPrefix(GLOBAL_PREFIX);
 
-  const port = process.env.PORT || 3000;
+  const configService = app.get(ConfigService);
+  const port = configService.get('application.port');
 
   await app.listen(port);
 

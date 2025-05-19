@@ -11,3 +11,5 @@ export { PostType } from './lib/types/blog/post-type.enum';
 export { PostStatus } from './lib/types/blog/post-status.enum';
 export { PostLike } from './lib/types/blog/post-like.interface';
 export { PostComment } from './lib/types/blog/post-comment.interface';
+
+export { File } from './lib/types/file-vault/file.interface';

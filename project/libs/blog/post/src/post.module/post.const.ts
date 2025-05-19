@@ -1,5 +1,3 @@
-export const PostApiResponseDescription = {};
-
 export const PostValidatorOptions = {
   POST_TAGS_ARRAY_MAX_SIZE: 8,
   POST_TAGS_MIN_LENGTH: 3,
@@ -25,3 +23,14 @@ export const PostServiceException = {
 };
 
 export const TEST_USER_ID = 'test-id';
+
+export const PostApiResponseDescription = {
+  POST_FOUND: 'Publication found',
+  POST_NOT_FOUND: 'Publication not found',
+  POST_CREATED: 'The new publication has been successfully created',
+  POST_UPDATED: 'The publication has been successfully updated',
+  POST_DELETED: 'The publication has been successfully deleted',
+  POST_REPOSTED: 'The publication has been successfully reposted',
+  POST_LIKE_ADDED: 'The like publication has been successfully added',
+  POST_LIKE_DELETED: 'The like publication has been successfully deleted',
+};
