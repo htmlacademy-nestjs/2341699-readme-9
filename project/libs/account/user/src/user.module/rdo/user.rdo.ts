@@ -40,7 +40,7 @@ export class UserRdo {
     description: 'User registration date',
   })
   @Expose()
-  public createAt: string;
+  public createdAt: string;
 
   @ApiProperty({
     description: 'User posts amount',

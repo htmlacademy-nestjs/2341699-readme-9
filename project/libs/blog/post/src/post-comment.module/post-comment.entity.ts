@@ -18,6 +18,7 @@ export class PostCommentEntity extends Entity implements StorableEntity<PostComm
     this.postId = postComment.postId;
     this.createdAt = postComment.createdAt;
     this.userId = postComment.userId;
+    this.commentText = postComment.commentText;
   }
 
   toPOJO(): PostComment {
@@ -26,6 +27,7 @@ export class PostCommentEntity extends Entity implements StorableEntity<PostComm
       postId: this.postId,
       createdAt: this.createdAt,
       userId: this.userId,
+      commentText: this.commentText,
     } as PostComment;
   }
 }

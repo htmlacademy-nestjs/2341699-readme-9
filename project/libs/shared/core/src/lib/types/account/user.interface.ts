@@ -4,7 +4,7 @@ export interface User {
   firstname: string;
   lastname: string;
   avatar?: string;
-  createAt: Date;
+  createdAt: Date;
   publicationsCount: number;
   subscribersCount: number;
   subscribers?: string[];

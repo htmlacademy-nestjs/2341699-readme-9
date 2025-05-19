@@ -7,7 +7,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
   public firstname: string;
   public lastname: string;
   public avatar?: string;
-  public createAt: Date;
+  public createdAt: Date;
   public publicationsCount: number;
   public subscribersCount: number;
   public subscribers?: string[];
@@ -29,7 +29,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
     this.firstname = user.firstname;
     this.lastname = user.lastname;
     this.avatar = user.avatar;
-    this.createAt = user.createAt;
+    this.createdAt = user.createdAt;
     this.publicationsCount = user.publicationsCount;
     this.subscribersCount = user.subscribersCount;
     this.subscribers = user.subscribers;
@@ -44,7 +44,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
       firstname: this.firstname,
       lastname: this.lastname,
       avatar: this.avatar,
-      createAt: this.createAt,
+      createdAt: this.createdAt,
       publicationsCount: this.publicationsCount,
       subscribersCount: this.subscribersCount,
       subscribers: this.subscribers,

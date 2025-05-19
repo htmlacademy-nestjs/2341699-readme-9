@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,68 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Post {
+  id     String @id @default(uuid())
+  type   String
+  status String
+
+  publicationDate DateTime
+  createdAt       DateTime @default(now())
+
+  tags   String[] @default([])
+  userId String
+
+  isRepost     Boolean @default(false)
+  repostId     String?
+  repostUserId String?
+
+  viewCount    Int
+  likeCount    Int
+  commentCount Int
+  repostCount  Int
+
+  videoTitle String?
+  videoUrl   String?
+
+  textTitle        String?
+  textAnnouncement String?
+  text             String?
+
+  quoteText   String?
+  quoteAuthor String?
+
+  photoId String?
+
+  linkUrl         String?
+  linkDescription String?
+  
+  postComment PostComment[]
+  postLikes PostLike[]
+  
+  @@map("posts")
+}
+
+model PostComment {
+  id          String   @id @default(uuid())
+  postId      String
+  userId      String
+  commentText String
+  createdAt   DateTime @default(now())
+
+  post   Post? @relation(fields: [postId], references: [id])
+
+  @@map("postComments")
+}
+
+model PostLike {
+  id        String   @id @default(uuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  post   Post? @relation(fields: [postId], references: [id])
+
+  @@map("postLikes")
 }

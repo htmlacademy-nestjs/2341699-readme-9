@@ -21,7 +21,7 @@ export class UserService {
       firstname,
       lastname,
       avatar,
-      createAt: new Date(),
+      createdAt: new Date(),
       passwordHash: '',
       publicationsCount: 0,
       subscribersCount: 0,
