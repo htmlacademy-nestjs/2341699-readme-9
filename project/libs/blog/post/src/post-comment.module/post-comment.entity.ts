@@ -23,7 +23,7 @@ export class PostCommentEntity extends Entity implements StorableEntity<PostComm
 
   toPOJO(): PostComment {
     return {
-      id: this.id,
+      id: this.id || undefined,
       postId: this.postId,
       createdAt: this.createdAt,
       userId: this.userId,

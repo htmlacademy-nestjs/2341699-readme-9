@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output = "../../../../node_modules/.prisma/blog-client"
 }
 
 datasource db {
@@ -8,7 +9,7 @@ datasource db {
 }
 
 model Post {
-  id     String @id @default(uuid())
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   type   String
   status String
 
@@ -49,7 +50,7 @@ model Post {
 }
 
 model PostComment {
-  id          String   @id @default(uuid())
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   postId      String
   userId      String
   commentText String
@@ -61,7 +62,7 @@ model PostComment {
 }
 
 model PostLike {
-  id        String   @id @default(uuid())
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId    String
   postId    String
   createdAt DateTime @default(now())

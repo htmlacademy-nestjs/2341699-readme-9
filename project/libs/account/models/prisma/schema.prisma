@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output = "../../../../node_modules/.prisma/account-client"
 }
 
 datasource db {
@@ -8,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id                String   @id @default(uuid())
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email             String   @unique
   firstname         String
   lastname          String
@@ -17,5 +18,21 @@ model User {
   publicationsCount Int
   subscribersCount  Int
 
+  passwordHash      String
+  //subscribers       UserSubscriber[] @relation("subscribers")
+  //subscriptions     UserSubscriber[] @relation("subscriptions")
+
   @@map("users")
 }
+
+// model UserSubscriber {
+//   id                String   @id @default(uuid())
+//   userId            String
+//   subscriberId      String
+//   createdAt         DateTime @default(now())
+
+//   subscriber        User? @relation("subscriptions", fields: [subscriberId], references: [id])
+//   user              User? @relation("subscribers", fields: [userId], references: [id])
+
+//   @@map("subscribers")
+// }

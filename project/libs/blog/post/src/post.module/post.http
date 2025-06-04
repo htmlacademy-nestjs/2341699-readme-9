@@ -1,5 +1,5 @@
 # Создание новой публикации
-POST http://localhost:3000/api/post/create HTTP/1.1
+POST http://localhost:3002/api/post/create HTTP/1.1
 Content-Type: application/json
 
 {
@@ -12,15 +12,14 @@ Content-Type: application/json
 ###
 
 # Получение публикации по id
-GET http://localhost:3000/api/post/154eb23d-d527-4bce-a63e-91321632bc52 HTTP/1.1
+GET http://localhost:3002/api/post/c163f24e-c264-475c-a989-2bc36704b94a HTTP/1.1
 ###
 
 # Изменение публикации
-PUT http://localhost:3000/api/post/update HTTP/1.1
+PUT http://localhost:3002/api/post/update/20d6bf11-7c9c-45b5-9c3c-15e4534525ba HTTP/1.1
 Content-Type: application/json
 
 {
-    "id": "564eb983-2e7e-4a9b-b9b5-f762d71bfab6",
     "type": "video",
     "status": "published",
     "tags": ["test"],
@@ -30,9 +29,17 @@ Content-Type: application/json
 ###
 
 # Удаление публикации
-DELETE http://localhost:3000/api/post/delete/564eb983-2e7e-4a9b-b9b5-f762d71bfab6 HTTP/1.1
+DELETE http://localhost:3002/api/post/delete/20d6bf11-7c9c-45b5-9c3c-15e4534525ba HTTP/1.1
 ###
 
 # Репост публикации
-POST http://localhost:3000/api/post/repost/11857391-35d4-4163-bbf4-1742b315614b HTTP/1.1
+POST http://localhost:3002/api/post/repost/c163f24e-c264-475c-a989-2bc36704b94a HTTP/1.1
+###
+
+# Добавление лайка
+POST http://localhost:3002/api/post/addLike/c163f24e-c264-475c-a989-2bc36704b94a HTTP/1.1
+###
+
+# Удаление лайка
+POST http://localhost:3002/api/post/deleteLike/c163f24e-c264-475c-a989-2bc36704b94a HTTP/1.1
 ###

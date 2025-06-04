@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { AuthUser } from '@project/core';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserServiceException } from './user.constant';
+import { UserServiceException } from './user.const';
 import { UserEntity } from './user.entity';
 import { UserRepository } from './user.repository';
 
@@ -25,13 +25,13 @@ export class UserService {
       passwordHash: '',
       publicationsCount: 0,
       subscribersCount: 0,
-      subscribers: [],
-      subscriptions: [],
+      //subscribers: [],
+      //subscriptions: [],
     };
 
     const userEntity = await new UserEntity(user).setPassword(password);
 
-    await this.userRepository.save(userEntity);
+    await this.userRepository.create(userEntity);
 
     return userEntity;
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PostCommentDto } from './dto/post-comment.dto';
 import { PostCommentFactory } from './post-comment.factory';
 import { PostCommentRepository } from './post-comment.repository';
@@ -11,14 +11,28 @@ export class PostCommentService {
   ) {}
 
   public async create(dto: PostCommentDto, userId: string) {
-    throw new Error('Not implemented');
+    const entity = this.postCommentFactory.createFromDto(dto, userId);
+
+    await this.postCommentRepository.create(entity);
+
+    // обновление кол-ва комментариев в записи публикации
+    await this.postCommentRepository.refreshPostCommentCount(entity.postId);
+
+    return entity;
   }
 
   public async delete(id: string, userId: string) {
-    throw new Error('Not implemented');
+    const existComment = await this.postCommentRepository.findById(id);
+
+    if (existComment.userId !== userId) throw new UnauthorizedException('No access');
+
+    await this.postCommentRepository.delete(id);
+
+    // обновление кол-ва комментариев в записи публикации
+    await this.postCommentRepository.refreshPostCommentCount(existComment.postId);
   }
 
   public async getByPostId(postId: string) {
-    throw new Error('Not implemented');
+    return await this.postCommentRepository.getByPostId(postId);
   }
 }
