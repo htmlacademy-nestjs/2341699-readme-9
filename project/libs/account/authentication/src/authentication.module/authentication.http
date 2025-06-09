@@ -8,3 +8,14 @@ Content-Type: application/json
 }
 
 ###
+
+ # Проверка валидации
+POST http://localhost:3001/api/auth/login HTTP/1.1
+Content-Type: application/json
+ 
+{
+  "email": "usertest.com",
+  "password": "123456"
+}
+
+###
