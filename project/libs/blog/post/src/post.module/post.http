@@ -7,7 +7,7 @@ Content-Type: application/json
     "status": "published",
     "tags": ["test"],
     "videoTitle": "Test video title",
-    "videoUrl" : "https://youtu.be/test"
+    "videoUrl" : "https://youtu.be/aboba"
 }
 ###
 
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
     "type": "video",
-    "status": "published",
+    "status": "draft",
     "tags": ["test"],
     "videoTitle": "Test video title - CHANGED",
     "videoUrl" : "https://youtu.be/test123"
@@ -42,4 +42,12 @@ POST http://localhost:3002/api/post/addLike/c163f24e-c264-475c-a989-2bc36704b94a
 
 # Удаление лайка
 POST http://localhost:3002/api/post/deleteLike/c163f24e-c264-475c-a989-2bc36704b94a HTTP/1.1
+###
+
+# Список публикаций
+GET http://localhost:3002/api/post HTTP/1.1
+###
+
+# Поиск публикаций
+GET http://localhost:3002/api/post/search/video HTTP/1.1
 ###

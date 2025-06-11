@@ -1,3 +1,5 @@
+import { PostSortType, SortDirection } from '@project/core';
+
 export const PostValidatorOptions = {
   POST_TAGS_ARRAY_MAX_SIZE: 8,
   POST_TAGS_MIN_LENGTH: 3,
@@ -26,6 +28,7 @@ export const TEST_USER_ID = 'test-id';
 
 export const PostApiResponseDescription = {
   POST_FOUND: 'Publication found',
+  POSTS_FOUND: 'Publications found',
   POST_NOT_FOUND: 'Publication not found',
   POST_CREATED: 'The new publication has been successfully created',
   POST_UPDATED: 'The publication has been successfully updated',
@@ -34,3 +37,11 @@ export const PostApiResponseDescription = {
   POST_LIKE_ADDED: 'The like publication has been successfully added',
   POST_LIKE_DELETED: 'The like publication has been successfully deleted',
 };
+
+export const DEFAULT_POST_COUNT_LIMIT = 25;
+export const DEFAULT_SEARCH_POST_COUNT_LIMIT = 20;
+
+export const DEFAULT_SORT_DIRECTION = SortDirection.Desc;
+export const DEFAULT_SORT_TYPE = PostSortType.PublicationDate;
+
+export const DEFAULT_PAGE_COUNT = 1;

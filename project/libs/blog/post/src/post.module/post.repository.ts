@@ -1,8 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientService } from '@project/blog-models';
-import { Post } from '@project/core';
+import { PaginationResult, Post, PostStatus, SortDirection } from '@project/core';
+import { DEFAULT_SEARCH_POST_COUNT_LIMIT } from './post.const';
 import { PostEntity } from './post.entity';
 import { PostFactory } from './post.factory';
+import { BlogPostQuery } from './post.query';
+import { Prisma } from '.prisma/blog-client';
 
 @Injectable()
 export class PostRepository {
@@ -100,7 +103,85 @@ export class PostRepository {
     });
   }
 
-  createEntity(item: Post): PostEntity | null {
+  public async getByQuery(query: BlogPostQuery) {
+    const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
+    const take = query?.limit;
+    const where: Prisma.PostWhereInput = {};
+    const orderBy: Prisma.PostOrderByWithRelationInput = {};
+
+    if (query?.tag) {
+      where.tags = {
+        hasSome: [query.tag],
+      };
+    }
+
+    if (query?.postType) {
+      where.type = query.postType;
+    }
+
+    if (query?.isDraft) {
+      where.userId = query?.userId ?? '-';
+      where.status = PostStatus.Draft;
+    } else {
+      if (query?.userId) {
+        where.userId = query.userId;
+      }
+    }
+
+    if (query?.sortBy) {
+      orderBy[query.sortBy] = query.sortDirection;
+    }
+
+    const [records, postCount] = await Promise.all([
+      this.client.post.findMany({
+        where,
+        orderBy,
+        skip,
+        take,
+      }),
+      this.getPostCount(where),
+    ]);
+
+    return {
+      entities: records.map((record) => this.createEntity(record as Post)?.toPOJO()),
+      currentPage: query?.page,
+      totalPages: Math.ceil(postCount / take),
+      itemsPerPage: take,
+      totalItems: postCount,
+    } as PaginationResult<Post>;
+  }
+
+  public async search(query: string) {
+    const take = DEFAULT_SEARCH_POST_COUNT_LIMIT;
+    const where: Prisma.PostWhereInput = {};
+    const orderBy: Prisma.PostOrderByWithRelationInput = {};
+
+    orderBy.createdAt = SortDirection.Desc;
+
+    where.status = PostStatus.Published;
+
+    where.OR = [
+      {
+        videoTitle: { contains: query, mode: 'insensitive' },
+      },
+      {
+        textTitle: { contains: query, mode: 'insensitive' },
+      },
+    ];
+
+    return await this.client.post.findMany({
+      where,
+      orderBy,
+      skip: 0,
+      take,
+    });
+  }
+
+  private createEntity(item: Post): PostEntity | null {
     return item ? this.entityFactory.create(item as ReturnType<PostEntity['toPOJO']>) : null;
+  }
+
+  private async getPostCount(where: Prisma.PostWhereInput) {
+    return this.client.post.count({ where });
   }
 }

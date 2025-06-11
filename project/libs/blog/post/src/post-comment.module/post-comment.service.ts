@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PostCommentDto } from './dto/post-comment.dto';
 import { PostCommentFactory } from './post-comment.factory';
+import { PostCommentQuery } from './post-comment.query';
 import { PostCommentRepository } from './post-comment.repository';
 
 @Injectable()
@@ -32,7 +33,7 @@ export class PostCommentService {
     await this.postCommentRepository.refreshPostCommentCount(existComment.postId);
   }
 
-  public async getByPostId(postId: string) {
-    return await this.postCommentRepository.getByPostId(postId);
+  public async getByQuery(query: PostCommentQuery) {
+    return await this.postCommentRepository.getByQuery(query);
   }
 }
