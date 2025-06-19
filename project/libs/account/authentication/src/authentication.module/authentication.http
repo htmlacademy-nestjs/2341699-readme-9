@@ -1,4 +1,4 @@
- # Login user by email and password
+ # Проверка аутентификации
 POST http://localhost:3001/api/auth/login HTTP/1.1
 Content-Type: application/json
  
@@ -17,5 +17,18 @@ Content-Type: application/json
   "email": "usertest.com",
   "password": "123456"
 }
+
+###
+
+
+# Получение новой пары JWT
+POST http://localhost:3001/api/auth/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsInRva2VuSWQiOiI0ZWIyZjNhOC0zYmZhLTQ5NDUtODRjZi1jOTAzY2I2ZWU0YjUiLCJpYXQiOjE3NTAzNDg2MjksImV4cCI6MTc1Mjk0MDYyOX0.TqCwVyYqxOIscSIr3SScRfbLPsV9bVJLOzVJ3lnRt-M
+
+###
+
+# Проверка токена
+POST http://localhost:3001/api/auth/check HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsImlhdCI6MTc1MDM0ODYyOSwiZXhwIjoxNzUwMzQ4OTI5fQ.TVxum5nlbTKVpAtmJvBDDyVe1deNhLljC6M6jytrSow
 
 ###

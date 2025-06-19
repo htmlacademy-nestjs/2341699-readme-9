@@ -25,8 +25,6 @@ export class UserService {
       passwordHash: '',
       publicationsCount: 0,
       subscribersCount: 0,
-      //subscribers: [],
-      //subscriptions: [],
     };
 
     const userEntity = await new UserEntity(user).setPassword(password);

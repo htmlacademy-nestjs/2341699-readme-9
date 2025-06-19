@@ -11,7 +11,8 @@ Content-Type: application/json
 
 ###
  
-# Получение пользователя по ID
+# Получение пользователя по Id
 GET http://localhost:3001/api/user/763de34a-5174-4045-a049-a32421ffb61f HTTP/1.1
- 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsImlhdCI6MTc1MDMyNTM4NywiZXhwIjoxNzUwMzI1Njg3fQ.h18Mx_UfAktnb5k6B6bPhvBvSfOR1PNrzhK-fU8OaAM
+
 ###
