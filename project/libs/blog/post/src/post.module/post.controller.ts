@@ -63,8 +63,4 @@ export class PostController {
   public async deleteLike(@Param('id') id: string) {
     return await this.postService.deleteLike(id, TEST_USER_ID);
   }
-
-  // todo:
-  // получение списка публикаций (пагинация? сортировка? поиск?)
-  // будет реализовано в модуле 5
 }
