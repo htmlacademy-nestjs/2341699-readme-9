@@ -85,7 +85,7 @@ export class PostEntity extends Entity implements StorableEntity<Post> {
 
   toPOJO(): Post {
     return {
-      id: this.id,
+      id: this.id || undefined,
       type: this.type,
       status: this.status,
 

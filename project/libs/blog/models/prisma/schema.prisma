@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+  output = "../../../../node_modules/.prisma/blog-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type   String
+  status String
+
+  publicationDate DateTime
+  createdAt       DateTime @default(now())
+
+  tags   String[] @default([])
+  userId String
+
+  isRepost     Boolean @default(false)
+  repostId     String?
+  repostUserId String?
+
+  viewCount    Int
+  likeCount    Int
+  commentCount Int
+  repostCount  Int
+
+  videoTitle String?
+  videoUrl   String?
+
+  textTitle        String?
+  textAnnouncement String?
+  text             String?
+
+  quoteText   String?
+  quoteAuthor String?
+
+  photoId String?
+
+  linkUrl         String?
+  linkDescription String?
+  
+  postComment PostComment[]
+  postLikes PostLike[]
+  
+  @@map("posts")
+}
+
+model PostComment {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  postId      String
+  userId      String
+  commentText String
+  createdAt   DateTime @default(now())
+
+  post   Post? @relation(fields: [postId], references: [id])
+
+  @@map("postComments")
+}
+
+model PostLike {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  post   Post? @relation(fields: [postId], references: [id])
+
+  @@map("postLikes")
+}

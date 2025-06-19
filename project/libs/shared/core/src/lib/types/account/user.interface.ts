@@ -1,12 +1,14 @@
+import { UserSubscriber } from './user-subscriber.interface';
+
 export interface User {
   id?: string;
   email: string;
   firstname: string;
   lastname: string;
-  avatar?: string;
-  createAt: Date;
+  avatar?: string | null;
+  createdAt: Date;
   publicationsCount: number;
   subscribersCount: number;
-  subscribers?: string[];
-  subscriptions?: string[];
+  //subscribers?: UserSubscriber[];
+  //subscriptions?: UserSubscriber[];
 }

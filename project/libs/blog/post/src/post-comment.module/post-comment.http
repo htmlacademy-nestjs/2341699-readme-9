@@ -1,0 +1,18 @@
+# Создание нового комментария
+POST http://localhost:3002/api/post-comment/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "postId": "c163f24e-c264-475c-a989-2bc36704b94a",
+    "commentText": "Test comment text"
+}
+###
+
+# Получение комментариев по id публикации
+GET http://localhost:3002/api/post-comment/c163f24e-c264-475c-a989-2bc36704b94a HTTP/1.1
+###
+
+
+# Удаление комментария
+DELETE http://localhost:3002/api/post-comment/delete/c0285445-f291-47a9-b0fd-f77dff05dd0b HTTP/1.1
+###

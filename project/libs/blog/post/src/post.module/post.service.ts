@@ -1,5 +1,6 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Post } from '@project/core';
+import { PostLikeRepository } from '../post-like.module/post-like.repository';
 import { PostDto } from './dto/post-dto.type';
 import { PostServiceException } from './post.const';
 import { PostEntity } from './post.entity';
@@ -11,6 +12,7 @@ export class PostService {
   constructor(
     private readonly postRepository: PostRepository,
     private readonly postFactory: PostFactory,
+    private readonly postLikeRepository: PostLikeRepository,
   ) {}
 
   public async create(dto: PostDto, userId: string) {
@@ -18,7 +20,7 @@ export class PostService {
 
     const postEntity = new PostEntity(newPost);
 
-    await this.postRepository.save(postEntity);
+    await this.postRepository.create(postEntity);
 
     // todo: create RDO
     return postEntity.toPOJO();
@@ -35,7 +37,7 @@ export class PostService {
 
     const postEntity = new PostEntity(existPost);
 
-    await this.postRepository.save(postEntity);
+    await this.postRepository.update(postEntity);
 
     // todo: create RDO
     return postEntity.toPOJO();
@@ -49,6 +51,10 @@ export class PostService {
     if (existPost.userId !== userId) throw new ConflictException(PostServiceException.POST_ACCESS_ERROR);
 
     await this.postRepository.deleteById(id);
+
+    // если это был репост, пересчитываем кол-во репостов у оригинальной публикации
+    if (existPost.repostId) await this.postRepository.refreshRepostCount(existPost.repostId);
+
     // todo: delete comments
   }
 
@@ -77,7 +83,10 @@ export class PostService {
 
     const repostEntity = new PostEntity(repost);
 
-    await this.postRepository.save(repostEntity);
+    await this.postRepository.create(repostEntity);
+
+    // обновляем кол-во репостов у оригинальной публикации
+    await this.postRepository.refreshRepostCount(originalPost.id);
 
     return repostEntity.toPOJO();
   }
@@ -87,7 +96,7 @@ export class PostService {
 
     if (!post) throw new NotFoundException(PostServiceException.POST_NOT_FOUND);
 
-    throw new Error('Not implemented');
+    this.postLikeRepository.addPostLike(id, userId);
   }
 
   public async deleteLike(id: string, userId: string) {
@@ -95,6 +104,8 @@ export class PostService {
 
     if (!post) throw new NotFoundException(PostServiceException.POST_NOT_FOUND);
 
-    throw new Error('Not implemented');
+    this.postLikeRepository.deletePostLike(id, userId);
   }
+
+  public async updateCommentCount(id: string, count: number) {}
 }

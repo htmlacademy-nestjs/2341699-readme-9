@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { PostDto } from './dto/post-dto.type';
 import { PostApiResponseDescription, TEST_USER_ID } from './post.const';
 import { PostService } from './post.service';
@@ -9,68 +9,43 @@ import { PostService } from './post.service';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @ApiResponse({
-    type: Post,
-    status: HttpStatus.OK,
-    description: PostApiResponseDescription.POST_CREATED,
-  })
+  @ApiOkResponse({ type: Post, description: PostApiResponseDescription.POST_CREATED })
   @Post('/create')
   public async createPost(@Body() dto: PostDto) {
     return await this.postService.create(dto, TEST_USER_ID);
   }
 
-  @ApiResponse({
-    type: Post,
-    status: HttpStatus.OK,
-    description: PostApiResponseDescription.POST_UPDATED,
-  })
+  @ApiOkResponse({ type: Post, description: PostApiResponseDescription.POST_UPDATED })
   @Put('/update/:id')
   public async updatePost(@Param('id') id: string, @Body() dto: PostDto) {
     return await this.postService.update(id, dto, TEST_USER_ID);
   }
 
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: PostApiResponseDescription.POST_DELETED,
-  })
+  @ApiOkResponse({ description: PostApiResponseDescription.POST_DELETED })
   @Delete('/delete/:id')
   public async deletePost(@Param('id') id: string) {
-    await this.postService.delete(id, TEST_USER_ID);
+    return await this.postService.delete(id, TEST_USER_ID);
   }
 
-  @ApiResponse({
-    type: Post,
-    status: HttpStatus.OK,
-    description: PostApiResponseDescription.POST_FOUND,
-  })
+  @ApiOkResponse({ type: Post, description: PostApiResponseDescription.POST_FOUND })
   @Get('/:id')
   public async getPost(@Param('id') id: string) {
     return await this.postService.getById(id);
   }
 
-  @ApiResponse({
-    type: Post,
-    status: HttpStatus.OK,
-    description: PostApiResponseDescription.POST_REPOSTED,
-  })
+  @ApiOkResponse({ type: Post, description: PostApiResponseDescription.POST_REPOSTED })
   @Post('/repost/:id')
   public async repost(@Param('id') id: string) {
     return await this.postService.repost(id, TEST_USER_ID);
   }
 
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: PostApiResponseDescription.POST_LIKE_ADDED,
-  })
+  @ApiOkResponse({ description: PostApiResponseDescription.POST_LIKE_ADDED })
   @Post('/addLike/:id')
   public async addLike(@Param('id') id: string) {
     return await this.postService.addLike(id, TEST_USER_ID);
   }
 
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: PostApiResponseDescription.POST_LIKE_DELETED,
-  })
+  @ApiOkResponse({ description: PostApiResponseDescription.POST_LIKE_DELETED })
   @Post('/deleteLike/:id')
   public async deleteLike(@Param('id') id: string) {
     return await this.postService.deleteLike(id, TEST_USER_ID);
@@ -78,4 +53,5 @@ export class PostController {
 
   // todo:
   // получение списка публикаций (пагинация? сортировка? поиск?)
+  // будет реализовано в модуле 5
 }

@@ -1,11 +1,9 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { UserValidatorOptions } from '../user.constant';
+import { UserValidatorOptions } from '../user.const';
 
 export class CreateUserDto {
   @ApiProperty({
-    required: true,
-    type: String,
     description: 'User email',
     example: 'ivanov_ivan@mail.com',
   })
@@ -13,8 +11,6 @@ export class CreateUserDto {
   public email: string;
 
   @ApiProperty({
-    required: true,
-    type: String,
     description: 'User firstname',
     example: 'Ivan',
     minLength: UserValidatorOptions.USER_NAME_MIN_LENGTH,
@@ -26,8 +22,6 @@ export class CreateUserDto {
   public firstname: string;
 
   @ApiProperty({
-    required: true,
-    type: String,
     description: 'User lastname',
     example: 'Ivanov',
     minLength: UserValidatorOptions.USER_NAME_MIN_LENGTH,
@@ -39,8 +33,6 @@ export class CreateUserDto {
   public lastname: string;
 
   @ApiProperty({
-    required: true,
-    type: String,
     description: 'User password',
     example: '12345678',
     minLength: UserValidatorOptions.USER_PASSWORD_MIN_LENGTH,
@@ -50,10 +42,7 @@ export class CreateUserDto {
   @MaxLength(UserValidatorOptions.USER_PASSWORD_MAX_LENGTH)
   public password: string;
 
-  @ApiPropertyOptional({
-    type: String,
-    description: 'User avatar',
-  })
+  @ApiPropertyOptional({ description: 'User avatar' })
   @IsString()
   @IsOptional()
   public avatar?: string;

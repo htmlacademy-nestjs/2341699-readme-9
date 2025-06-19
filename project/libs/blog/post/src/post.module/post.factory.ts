@@ -10,7 +10,7 @@ import { PostEntity } from './post.entity';
 
 @Injectable()
 export class PostFactory implements EntityFactory<PostEntity> {
-  public create(entityPlainData: PostEntity): PostEntity {
+  public create(entityPlainData: Post): PostEntity {
     return new PostEntity(entityPlainData);
   }
 
@@ -97,7 +97,7 @@ export class PostFactory implements EntityFactory<PostEntity> {
 
     if (!dto.tags) return;
 
-    // уникальные значения в верхнем регистре
-    post.tags = [...new Set(dto.tags)].map((e) => e.toUpperCase());
+    // уникальные значения в верхнем регистре, отсортированные
+    post.tags = [...new Set(dto.tags)].map((e) => e.toUpperCase()).sort();
   }
 }
