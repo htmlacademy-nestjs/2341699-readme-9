@@ -2,13 +2,15 @@ import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
 
 const DEFAULT_PORT = 3000;
+const DEFAULT_UPLOAD_DIRECTORY = 'd:\\temp\\uploads';
 const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
 
 type Environment = (typeof ENVIRONMENTS)[number];
 
-export interface ApplicationConfig {
+export interface FileVaultConfig {
   environment: string;
   port: number;
+  uploadDirectory: string;
 }
 
 const validationSchema = Joi.object({
@@ -16,22 +18,25 @@ const validationSchema = Joi.object({
     .valid(...ENVIRONMENTS)
     .required(),
   port: Joi.number().port().default(DEFAULT_PORT),
+  uploadDirectory: Joi.string().required(),
 });
 
-function validateConfig(config: ApplicationConfig): void {
+function validateConfig(config: FileVaultConfig): void {
   const { error } = validationSchema.validate(config, { abortEarly: true });
   if (error) {
-    throw new Error(`[Application Config Validation Error]: ${error.message}`);
+    throw new Error(`[FileVault Config Validation Error]: ${error.message}`);
   }
 }
 
-function getConfig(): ApplicationConfig {
-  const config: ApplicationConfig = {
+function getConfig(): FileVaultConfig {
+  const config: FileVaultConfig = {
     environment: process.env['NODE_ENV'] as Environment,
     port: parseInt(process.env['PORT'] || `${DEFAULT_PORT}`, 10),
+    uploadDirectory: process.env['UPLOAD_DIRECTORY_PATH'] ?? DEFAULT_UPLOAD_DIRECTORY,
   };
 
   validateConfig(config);
+
   return config;
 }
 
