@@ -42,6 +42,10 @@ export class UserRepository {
     return user ? this.createEntity(user) : null;
   }
 
+  public async getAll() {
+    return (await this.client.user.findMany()).map((e) => this.createEntity(e)).filter((e) => e !== null);
+  }
+
   createEntity(item: User): UserEntity | null {
     return item ? this.entityFactory.create(item as ReturnType<UserEntity['toPOJO']>) : null;
   }

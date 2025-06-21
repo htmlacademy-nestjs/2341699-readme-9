@@ -14,13 +14,8 @@ export class BlogNotifyService {
   ) {}
 
   public async createPost(dto: CreatePostDto) {
-    const result = await this.rabbitClient.publish<CreatePostDto>(
-      this.rabbiOptions.exchange,
-      RabbitRouting.AddNewPost,
-      {
-        ...dto,
-      },
-    );
-    console.log(result);
+    return await this.rabbitClient.publish<CreatePostDto>(this.rabbiOptions.exchange, RabbitRouting.AddNewPost, {
+      ...dto,
+    });
   }
 }

@@ -1,5 +1,5 @@
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { RabbitRouting } from '@project/core';
 import { CreatePostDto } from './dto/create-post.dto';
 import { EmailSubscriberService } from './email-subscriber.service';
@@ -19,6 +19,10 @@ export class EmailSubscriberController {
   })
   public async create(post: CreatePostDto) {
     await this.notifyService.addPost(post);
-    //this.subscriberService.addSubscriber(subscriber);
+  }
+
+  @Get('/send-notifications')
+  public async sendNotifications() {
+    return await this.notifyService.sendNotifications();
   }
 }

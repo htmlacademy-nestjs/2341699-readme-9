@@ -15,8 +15,11 @@ export class EmailSubscriberRepository extends BaseMongoRepository<NotifyPostEnt
     super(entityFactory, notifyPostModel);
   }
 
-  //   public async findByEmail(email: string): Promise<EmailSubscriberEntity | null> {
-  //     const document = await this.model.findOne({ email }).exec();
-  //     return this.createEntityFromDocument(document);
-  //   }
+  public async getAll() {
+    return (await this.model.find().exec()).map((e) => this.createEntityFromDocument(e)).filter((e) => e !== null);
+  }
+
+  public async deleteAll() {
+    await this.model.deleteMany().exec();
+  }
 }
