@@ -30,7 +30,9 @@
       "@project/post": ["libs/blog/post/src/index.ts"],
       "@project/shared": ["libs/shared/src/index.ts"],
       "@project/user": ["libs/account/user/src/index.ts"],
-      "@project/user-models": ["libs/account/models/src/index.ts"]
+      "@project/user-models": ["libs/account/models/src/index.ts"],
+      "@project/email-subscriber": ["libs/notify/email-subscriber/src/index.ts"],
+      "@project/blog-notify": ["libs/blog/notify/src/index.ts"]
     },
     "strictPropertyInitialization": false
   },

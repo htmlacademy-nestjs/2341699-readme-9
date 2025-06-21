@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 import { PostDto } from './dto/post-dto.type';
 import { PostApiResponseDescription, TEST_USER_ID } from './post.const';
 import { BlogPostQuery } from './post.query';
@@ -24,8 +25,8 @@ export class PostController {
 
   @ApiOkResponse({ type: Post, description: PostApiResponseDescription.POST_CREATED })
   @Post('/create')
-  public async createPost(@Body() dto: PostDto) {
-    return await this.postService.create(dto, TEST_USER_ID);
+  public async createPost(@Body() dto: PostDto, @Req() req: Request) {
+    return await this.postService.create(dto, TEST_USER_ID, req);
   }
 
   @ApiOkResponse({ type: Post, description: PostApiResponseDescription.POST_UPDATED })
