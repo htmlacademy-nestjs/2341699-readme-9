@@ -27,15 +27,15 @@ export const PostServiceException = {
 export const TEST_USER_ID = 'test-id';
 
 export const PostApiResponseDescription = {
-  POST_FOUND: 'Publication found',
-  POSTS_FOUND: 'Publications found',
-  POST_NOT_FOUND: 'Publication not found',
-  POST_CREATED: 'The new publication has been successfully created',
-  POST_UPDATED: 'The publication has been successfully updated',
-  POST_DELETED: 'The publication has been successfully deleted',
-  POST_REPOSTED: 'The publication has been successfully reposted',
-  POST_LIKE_ADDED: 'The like publication has been successfully added',
-  POST_LIKE_DELETED: 'The like publication has been successfully deleted',
+  POST_FOUND: 'Post found',
+  POSTS_FOUND: 'Posts found',
+  POST_NOT_FOUND: 'Post not found',
+  POST_CREATED: 'The new post has been successfully created',
+  POST_UPDATED: 'The post has been successfully updated',
+  POST_DELETED: 'The post has been successfully deleted',
+  POST_REPOSTED: 'The post has been successfully reposted',
+  POST_LIKE_ADDED: 'The like post has been successfully added',
+  POST_LIKE_DELETED: 'The like post has been successfully deleted',
 };
 
 export const DEFAULT_POST_COUNT_LIMIT = 25;

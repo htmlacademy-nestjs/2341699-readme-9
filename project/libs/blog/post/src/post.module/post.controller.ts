@@ -5,7 +5,7 @@ import { PostApiResponseDescription, TEST_USER_ID } from './post.const';
 import { BlogPostQuery } from './post.query';
 import { PostService } from './post.service';
 
-@ApiTags('publications')
+@ApiTags('posts')
 @Controller('post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
