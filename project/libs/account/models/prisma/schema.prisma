@@ -25,6 +25,16 @@ model User {
   @@map("users")
 }
 
+model Token {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tokenId   String   @unique 
+  createdAt DateTime @default(now())
+  userId    String   
+  expiresIn DateTime 
+  
+  @@map("tokens")
+}
+
 // model UserSubscriber {
 //   id                String   @id @default(uuid())
 //   userId            String

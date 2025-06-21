@@ -1,13 +1,26 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { PostDto } from './dto/post-dto.type';
 import { PostApiResponseDescription, TEST_USER_ID } from './post.const';
+import { BlogPostQuery } from './post.query';
 import { PostService } from './post.service';
 
 @ApiTags('publications')
 @Controller('post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
+
+  @ApiOkResponse({ description: PostApiResponseDescription.POSTS_FOUND })
+  @Get('/')
+  public async index(@Query() query: BlogPostQuery) {
+    return await this.postService.getAllPosts(query);
+  }
+
+  @ApiOkResponse({ description: PostApiResponseDescription.POSTS_FOUND })
+  @Get('/search/:query')
+  public async search(@Param('query') query: string) {
+    return await this.postService.search(query);
+  }
 
   @ApiOkResponse({ type: Post, description: PostApiResponseDescription.POST_CREATED })
   @Post('/create')
@@ -50,8 +63,4 @@ export class PostController {
   public async deleteLike(@Param('id') id: string) {
     return await this.postService.deleteLike(id, TEST_USER_ID);
   }
-
-  // todo:
-  // получение списка публикаций (пагинация? сортировка? поиск?)
-  // будет реализовано в модуле 5
 }

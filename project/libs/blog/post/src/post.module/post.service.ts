@@ -5,6 +5,7 @@ import { PostDto } from './dto/post-dto.type';
 import { PostServiceException } from './post.const';
 import { PostEntity } from './post.entity';
 import { PostFactory } from './post.factory';
+import { BlogPostQuery } from './post.query';
 import { PostRepository } from './post.repository';
 
 @Injectable()
@@ -15,6 +16,14 @@ export class PostService {
     private readonly postLikeRepository: PostLikeRepository,
   ) {}
 
+  public async getAllPosts(query: BlogPostQuery) {
+    return await this.postRepository.getByQuery(query);
+  }
+
+  public async search(query: string) {
+    return await this.postRepository.search(query);
+  }
+
   public async create(dto: PostDto, userId: string) {
     const newPost = this.postFactory.createPostFromDto(dto, userId);
 
@@ -22,7 +31,6 @@ export class PostService {
 
     await this.postRepository.create(postEntity);
 
-    // todo: create RDO
     return postEntity.toPOJO();
   }
 
@@ -39,7 +47,6 @@ export class PostService {
 
     await this.postRepository.update(postEntity);
 
-    // todo: create RDO
     return postEntity.toPOJO();
   }
 
@@ -106,6 +113,4 @@ export class PostService {
 
     this.postLikeRepository.deletePostLike(id, userId);
   }
-
-  public async updateCommentCount(id: string, count: number) {}
 }
