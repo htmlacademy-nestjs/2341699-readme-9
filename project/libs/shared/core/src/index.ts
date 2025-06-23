@@ -17,8 +17,12 @@ export { PostComment } from './lib/types/blog/post-comment.interface';
 export { PostSortType } from './lib/types/blog/post-sort-type.enum';
 
 export { File } from './lib/types/file-vault/file.interface';
+export { StoredFile } from './lib/types/file-vault/stored-file.interface';
 
 export { Token } from './lib/interfaces/token.interface';
 export { TokenPayload } from './lib/interfaces/token-payload.interface';
 export { JwtToken } from './lib/interfaces/jwt-token.interface';
 export { RefreshTokenPayload } from './lib/interfaces/refresh-token-payload.interface';
+
+export { RabbitRouting } from './lib/types/notify/rabbit-routing.enum';
+export { NotifyPost } from './lib/types/notify/notify-post.interface';

@@ -1,17 +1,38 @@
-// import { Injectable } from '@nestjs/common';
-// import { InjectModel } from '@nestjs/mongoose';
-// import { BaseMongoRepository } from '@project/data-access';
-// import { Model } from 'mongoose';
-// import { FileModel } from './file.model';
-// import { FileUploaderEntity } from './file-uploader.entity';
-// import { FileUploaderFactory } from './file-uploader.factory';
+import { Injectable } from '@nestjs/common';
+import { File } from '@project/core';
+import { PrismaClientService } from '@project/file-vault-models';
+import { FileUploaderEntity } from './file-uploader.entity';
+import { FileUploaderFactory } from './file-uploader.factory';
 
-// @Injectable()
-// export class FileUploaderRepository extends BaseMongoRepository<FileUploaderEntity, FileModel> {
-//   constructor(
-//     entityFactory: FileUploaderFactory,
-//     @InjectModel(FileModel.name) fileModel: Model<FileModel>
-//     ) {
-//     super(entityFactory, fileModel);
-//   }
-// }
+@Injectable()
+export class FileUploaderRepository {
+  entityFactory = new FileUploaderFactory();
+
+  constructor(readonly client: PrismaClientService) {}
+
+  public async save(entity: FileUploaderEntity) {
+    const pojoEntity = entity.toPOJO();
+
+    const record = await this.client.file.create({
+      data: {
+        ...pojoEntity,
+      },
+    });
+
+    entity.id = record.id;
+  }
+
+  public async findById(id: string) {
+    const item = await this.client.file.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return this.createEntity(item);
+  }
+
+  private createEntity(item: File | null): FileUploaderEntity | null {
+    return item ? this.entityFactory.create(item as ReturnType<FileUploaderEntity['toPOJO']>) : null;
+  }
+}

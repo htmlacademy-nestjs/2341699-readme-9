@@ -7,7 +7,6 @@ export class FileUploaderEntity extends Entity implements StorableEntity<File> {
   public hashName: string;
   public path: string;
   public createdAt: Date;
-  public updatedAt: Date;
   public subDirectory: string;
 
   constructor(file?: File) {
@@ -27,20 +26,18 @@ export class FileUploaderEntity extends Entity implements StorableEntity<File> {
     this.hashName = file.hashName;
     this.path = file.path;
     this.createdAt = file.createdAt;
-    this.updatedAt = file.updatedAt;
     this.subDirectory = file.subDirectory;
   }
 
   public toPOJO(): File {
     return {
-      id: this.id,
+      id: this.id || undefined,
       originalName: this.originalName,
       size: this.size,
       mimetype: this.mimetype,
       hashName: this.hashName,
       path: this.path,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
       subDirectory: this.subDirectory,
     };
   }

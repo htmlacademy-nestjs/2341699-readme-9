@@ -1,0 +1,5 @@
+ 
+# Рассылка всем пользователям о новых постах
+GET http://localhost:3004/api/send-notifications HTTP/1.1
+
+###

@@ -43,18 +43,31 @@ export class AuthenticationService {
   public async createUserToken(user: User): Promise<Token> {
     const accessTokenPayload = createJWTPayload(user);
     const refreshTokenPayload = { ...accessTokenPayload, tokenId: crypto.randomUUID() };
-    await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
 
     try {
-      const accessToken = await this.jwtService.signAsync(accessTokenPayload);
-      const refreshToken = await this.jwtService.signAsync(refreshTokenPayload, {
-        secret: this.jwtOptions.refreshTokenSecret,
-        expiresIn: this.jwtOptions.refreshTokenExpiresIn,
+      await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
+
+      const tokens = {
+        accessToken: '',
+        refreshToken: '',
+      };
+
+      await Promise.all([
+        this.jwtService.signAsync(accessTokenPayload),
+        this.jwtService.signAsync(refreshTokenPayload, {
+          secret: this.jwtOptions.refreshTokenSecret,
+          expiresIn: this.jwtOptions.refreshTokenExpiresIn,
+        }),
+      ]).then((result) => {
+        tokens.accessToken = result[0];
+        tokens.refreshToken = result[1];
       });
 
-      return { accessToken, refreshToken };
+      return tokens;
     } catch (error) {
-      throw new HttpException('Ошибка при создании токена.', HttpStatus.INTERNAL_SERVER_ERROR);
+      // удаляем сессию из бд в случае ошибки
+      await this.refreshTokenService.deleteRefreshSession(refreshTokenPayload.tokenId);
+      throw new HttpException('Error creating token', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

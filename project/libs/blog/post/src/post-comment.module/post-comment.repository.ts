@@ -59,7 +59,7 @@ export class PostCommentRepository {
     ]);
 
     return {
-      entities: records.map((record) => record as PostComment),
+      items: records.map((record) => record as PostComment),
       currentPage: query?.page,
       totalPages: Math.ceil(postCount / take),
       itemsPerPage: take,

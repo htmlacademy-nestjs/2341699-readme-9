@@ -1,0 +1,17 @@
+# Загрузка файла
+POST http://localhost:3003/api/files/upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file-test.txt"
+
+< ./file-test.txt
+
+--boundary--
+
+###
+
+# Получение файла по ID
+GET http://localhost:3003/api/files/f61447db-c556-4450-a390-cbffd9835084 HTTP/1.1
+
+###

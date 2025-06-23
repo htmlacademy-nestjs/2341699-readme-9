@@ -143,7 +143,7 @@ export class PostRepository {
     ]);
 
     return {
-      entities: records.map((record) => this.createEntity(record as Post)?.toPOJO()),
+      items: records.map((record) => this.createEntity(record as Post)?.toPOJO()),
       currentPage: query?.page,
       totalPages: Math.ceil(postCount / take),
       itemsPerPage: take,

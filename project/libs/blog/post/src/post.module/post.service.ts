@@ -1,5 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { Post } from '@project/core';
+import { BlogNotifyService } from '@project/blog-notify';
+import { Post, PostStatus, PostType } from '@project/core';
+import { Request } from 'express';
 import { PostLikeRepository } from '../post-like.module/post-like.repository';
 import { PostDto } from './dto/post-dto.type';
 import { PostServiceException } from './post.const';
@@ -14,6 +16,7 @@ export class PostService {
     private readonly postRepository: PostRepository,
     private readonly postFactory: PostFactory,
     private readonly postLikeRepository: PostLikeRepository,
+    private readonly blogNotifyService: BlogNotifyService,
   ) {}
 
   public async getAllPosts(query: BlogPostQuery) {
@@ -24,12 +27,20 @@ export class PostService {
     return await this.postRepository.search(query);
   }
 
-  public async create(dto: PostDto, userId: string) {
+  public async create(dto: PostDto, userId: string, req: Request) {
     const newPost = this.postFactory.createPostFromDto(dto, userId);
 
     const postEntity = new PostEntity(newPost);
 
     await this.postRepository.create(postEntity);
+
+    if (postEntity.status === PostStatus.Published) {
+      await this.blogNotifyService.createPost({
+        url: this.getPostUrl(postEntity.id, req),
+        description: this.getPostDescription(postEntity),
+        publicationDate: postEntity.publicationDate,
+      });
+    }
 
     return postEntity.toPOJO();
   }
@@ -112,5 +123,26 @@ export class PostService {
     if (!post) throw new NotFoundException(PostServiceException.POST_NOT_FOUND);
 
     this.postLikeRepository.deletePostLike(id, userId);
+  }
+
+  private getPostDescription(post: PostEntity) {
+    switch (post.type) {
+      case PostType.Video:
+        return `New video post: ${post.videoTitle}`;
+      case PostType.Text:
+        return `New text post: ${post.textTitle}`;
+      case PostType.Quote:
+        return 'New quote post';
+      case PostType.Photo:
+        return 'New photo post';
+      case PostType.Link:
+        return 'New link post';
+      default:
+        return 'New post';
+    }
+  }
+
+  private getPostUrl(postId: string, req: Request) {
+    return `${req.protocol}://${req.get('Host')}/api/post/${postId}`;
   }
 }
