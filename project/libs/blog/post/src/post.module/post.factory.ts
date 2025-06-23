@@ -14,9 +14,9 @@ export class PostFactory implements EntityFactory<PostEntity> {
     return new PostEntity(entityPlainData);
   }
 
-  public createPostFromDto(dto: PostDto, userId: string) {
+  public createPostFromDto(dto: PostDto) {
     const post: Post = {
-      userId,
+      userId: dto.userId,
       type: dto.type,
       status: PostStatus.Published,
 

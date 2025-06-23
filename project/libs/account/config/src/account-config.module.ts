@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import applicationConfig from './configurations/app.config';
 import jwtConfig from './configurations/jwt.config';
-//import rabbitConfig from './configurations/rabbit.config';
 
 const ENV_USERS_FILE_PATH = 'apps/account/account.env';
 

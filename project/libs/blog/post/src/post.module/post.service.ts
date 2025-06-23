@@ -27,8 +27,8 @@ export class PostService {
     return await this.postRepository.search(query);
   }
 
-  public async create(dto: PostDto, userId: string, req: Request) {
-    const newPost = this.postFactory.createPostFromDto(dto, userId);
+  public async create(dto: PostDto, req: Request) {
+    const newPost = this.postFactory.createPostFromDto(dto);
 
     const postEntity = new PostEntity(newPost);
 
@@ -45,12 +45,12 @@ export class PostService {
     return postEntity.toPOJO();
   }
 
-  public async update(id: string, dto: PostDto, userId: string) {
+  public async update(id: string, dto: PostDto) {
     const existPost = await this.getById(id);
 
     if (!existPost) throw new NotFoundException(PostServiceException.POST_NOT_FOUND);
 
-    if (existPost.userId !== userId) throw new ConflictException(PostServiceException.POST_ACCESS_ERROR);
+    if (existPost.userId !== dto.userId) throw new ConflictException(PostServiceException.POST_ACCESS_ERROR);
 
     this.postFactory.updatePostFromDto(existPost, dto);
 
@@ -72,8 +72,6 @@ export class PostService {
 
     // если это был репост, пересчитываем кол-во репостов у оригинальной публикации
     if (existPost.repostId) await this.postRepository.refreshRepostCount(existPost.repostId);
-
-    // todo: delete comments
   }
 
   public async getById(id: string) {
@@ -81,7 +79,6 @@ export class PostService {
 
     if (!post) throw new NotFoundException(PostServiceException.POST_NOT_FOUND);
 
-    // todo: create RDO
     return post.toPOJO();
   }
 
@@ -123,6 +120,10 @@ export class PostService {
     if (!post) throw new NotFoundException(PostServiceException.POST_NOT_FOUND);
 
     this.postLikeRepository.deletePostLike(id, userId);
+  }
+
+  public async getPostCountByUserId(userId: string) {
+    return await this.postRepository.getPostCountByUserId(userId);
   }
 
   private getPostDescription(post: PostEntity) {

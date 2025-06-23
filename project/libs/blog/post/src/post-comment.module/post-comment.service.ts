@@ -11,8 +11,8 @@ export class PostCommentService {
     private readonly postCommentFactory: PostCommentFactory,
   ) {}
 
-  public async create(dto: PostCommentDto, userId: string) {
-    const entity = this.postCommentFactory.createFromDto(dto, userId);
+  public async create(dto: PostCommentDto) {
+    const entity = this.postCommentFactory.createFromDto(dto);
 
     await this.postCommentRepository.create(entity);
 

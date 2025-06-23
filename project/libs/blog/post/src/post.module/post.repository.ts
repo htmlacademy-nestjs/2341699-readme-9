@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientService } from '@project/blog-models';
-import { PaginationResult, Post, PostStatus, SortDirection } from '@project/core';
+import { PaginationResult, Post, PostCount, PostStatus, SortDirection } from '@project/core';
 import { DEFAULT_SEARCH_POST_COUNT_LIMIT } from './post.const';
 import { PostEntity } from './post.entity';
 import { PostFactory } from './post.factory';
@@ -175,6 +175,19 @@ export class PostRepository {
       skip: 0,
       take,
     });
+  }
+
+  public async getPostCountByUserId(userId: string) {
+    const where: Prisma.PostWhereInput = {
+      userId,
+    };
+
+    const postCount = await this.getPostCount(where);
+
+    return {
+      userId,
+      postCount,
+    } as PostCount;
   }
 
   private createEntity(item: Post): PostEntity | null {

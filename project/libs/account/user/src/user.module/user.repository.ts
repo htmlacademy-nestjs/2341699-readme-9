@@ -10,6 +10,19 @@ export class UserRepository {
 
   constructor(readonly client: PrismaClientService) {}
 
+  public async update(user: UserEntity) {
+    const record = await this.client.user.update({
+      where: { id: user.id },
+      data: {
+        passwordHash: user.passwordHash,
+        publicationsCount: user.publicationsCount,
+        subscribersCount: user.subscribersCount,
+      },
+    });
+
+    return this.createEntity(record);
+  }
+
   public async create(user: UserEntity) {
     const pojoEntity = user.toPOJO();
 
