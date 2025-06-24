@@ -50,23 +50,18 @@ export class AuthenticationService {
     try {
       await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
 
-      const tokens = {
-        accessToken: '',
-        refreshToken: '',
-      };
-
-      await Promise.all([
+      const result = await Promise.all([
         this.jwtService.signAsync(accessTokenPayload),
         this.jwtService.signAsync(refreshTokenPayload, {
           secret: this.jwtOptions.refreshTokenSecret,
           expiresIn: this.jwtOptions.refreshTokenExpiresIn,
         }),
-      ]).then((result) => {
-        tokens.accessToken = result[0];
-        tokens.refreshToken = result[1];
-      });
+      ]);
 
-      return tokens;
+      return {
+        accessToken: result[0],
+        refreshToken: result[1],
+      };
     } catch (error) {
       // удаляем сессию из бд в случае ошибки
       await this.refreshTokenService.deleteRefreshSession(refreshTokenPayload.tokenId);
