@@ -1,0 +1,154 @@
+# Создание нового пользователя
+POST http://localhost:3010/api/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "user6@test.com",
+    "password": "123456",
+    "firstname": "Keks",
+    "lastname": "Smith"
+}
+
+###
+
+# Создание нового пользователя с аватаром
+POST http://localhost:3010/api/users/register HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="email"
+
+user5@test.com
+--boundary
+Content-Disposition: form-data; name="password"
+
+abc123
+--boundary
+Content-Disposition: form-data; name="firstname"
+
+Keks
+--boundary
+Content-Disposition: form-data; name="lastname"
+
+Smith
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="avatar.jpg"
+Content-Type: image/jpeg
+
+< ./avatar.jpg
+--boundary--
+
+###
+
+# Получение пользователя по Id
+GET http://localhost:3010/api/users/763de34a-5174-4045-a049-a32421ffb61f HTTP/1.1
+###
+
+# Проверка аутентификации
+POST http://localhost:3010/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@test.com",
+  "password": "123456"
+}
+###
+
+# Получение новой пары JWT
+POST http://localhost:3010/api/users/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsInRva2VuSWQiOiI1OTNlZmM3ZS03NWZjLTQwNjktODMzNS0xYjJjMTBlOWQ1YjYiLCJpYXQiOjE3NTA1ODM4MDUsImV4cCI6MTc1MzE3NTgwNX0.TMa2mqrZ2_WsaZRQfY7sVNot9_ScvDhkna6huioFs_I
+###
+
+# Проверка смены пароля
+POST http://localhost:3001/api/auth/password HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYmM2YTgxMi1jZGZkLTRiM2YtOGQ2Yi0yOTdiNTg2MWI3OTEiLCJlbWFpbCI6InVzZXI0QHRlc3QuY29tIiwiZmlyc3RuYW1lIjoiS2VrcyIsImxhc3RuYW1lIjoiU21pdGgiLCJpYXQiOjE3NTA2ODQ4MjAsImV4cCI6MTc1MDY4NTEyMH0.arN_d-uUbSsW2Ff3uSubC7yq-MJnq6JdC0j1Ca6M_uk
+Content-Type: application/json
+ 
+{
+  "currentPassword": "123456",
+  "newPassword": "abc123d"
+}
+###
+
+# Создание новой публикации
+POST http://localhost:3010/api/blog/create HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsImlhdCI6MTc1MDcwNjk5OSwiZXhwIjoxNzUwNzA5OTk5fQ.rf2kB54s0vLLzcvmC0B4NvQlk62h_DdegM1ltIyxbOo
+Content-Type: application/json
+
+{
+    "type": "video",
+    "status": "published",
+    "tags": ["test"],
+    "videoTitle": "Test video title",
+    "videoUrl" : "https://youtu.be/aboba"
+}
+###
+
+# Получение публикации по id
+GET http://localhost:3010/api/blog/e4ff4d9f-e473-495e-bc30-5b1169001d2b HTTP/1.1
+###
+
+# Изменение публикации
+PUT http://localhost:3010/api/blog/update/e58783b5-9b6d-4145-abc1-661a06466c15 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsImlhdCI6MTc1MDY5NzcxMywiZXhwIjoxNzUwNjk4MDEzfQ.gVz66NBVYrZACFKa89FDSNEmtTbY0pVpB-T0AarZZrw
+Content-Type: application/json
+
+{
+    "type": "video",
+    "status": "draft",
+    "tags": ["test"],
+    "videoTitle": "Test video title - CHANGED FROM BFF",
+    "videoUrl" : "https://youtu.be/test123",
+    "userId" : "62fdcda5-2efa-4ea9-aa3a-bf7829fc7ba5"
+}
+###
+
+# Удаление публикации
+DELETE http://localhost:3010/api/blog/delete/e58783b5-9b6d-4145-abc1-661a06466c15 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsImlhdCI6MTc1MDY5NzcxMywiZXhwIjoxNzUwNjk4MDEzfQ.gVz66NBVYrZACFKa89FDSNEmtTbY0pVpB-T0AarZZrw
+###
+
+# Репост публикации
+POST http://localhost:3010/api/blog/repost/e4ff4d9f-e473-495e-bc30-5b1169001d2b HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsImlhdCI6MTc1MDY5ODIyOCwiZXhwIjoxNzUwNjk4NTI4fQ.FFqeY5jA7IDyAuZeAoI_uG2IUbXfiwcEPFvRnmon4MY
+###
+
+
+# Добавление лайка
+POST http://localhost:3010/api/blog/addLike/c163f24e-c264-475c-a989-2bc36704b94a HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsImlhdCI6MTc1MDY5ODIyOCwiZXhwIjoxNzUwNjk4NTI4fQ.FFqeY5jA7IDyAuZeAoI_uG2IUbXfiwcEPFvRnmon4MY
+###
+
+# Удаление лайка
+POST http://localhost:3010/api/blog/deleteLike/c163f24e-c264-475c-a989-2bc36704b94a HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsImlhdCI6MTc1MDY5ODIyOCwiZXhwIjoxNzUwNjk4NTI4fQ.FFqeY5jA7IDyAuZeAoI_uG2IUbXfiwcEPFvRnmon4MY
+###
+
+# Список публикаций
+GET http://localhost:3010/api/blog?postType=video&limit=1 HTTP/1.1
+###
+
+
+# Поиск публикаций
+GET http://localhost:3010/api/blog/search/video HTTP/1.1
+###
+
+# Создание нового комментария
+POST http://localhost:3010/api/blog/comments/create HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsImlhdCI6MTc1MDcwMTIzNCwiZXhwIjoxNzUwNzA0MjM0fQ.ZnWcWBGDsLrYtWJekN838zpgR6QvQFDkMF0lTj3kMgQ
+Content-Type: application/json
+
+{
+    "postId": "c163f24e-c264-475c-a989-2bc36704b94a",
+    "commentText": "Test comment text - 2"
+}
+###
+
+# Удаление комментария
+DELETE http://localhost:3010/api/blog/comments/delete/5b3fc43b-10b6-4721-bd8e-97b34e35ce70 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0YS01MTc0LTQwNDUtYTA0OS1hMzI0MjFmZmI2MWYiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJmaXJzdG5hbWUiOiJLZWtzIiwibGFzdG5hbWUiOiJTbWl0aCIsImlhdCI6MTc1MDcwMTIzNCwiZXhwIjoxNzUwNzA0MjM0fQ.ZnWcWBGDsLrYtWJekN838zpgR6QvQFDkMF0lTj3kMgQ
+###
+
+# Получение комментариев по id публикации
+GET http://localhost:3010/api/blog/comments/get?postId=c163f24e-c264-475c-a989-2bc36704b94a HTTP/1.1
+###

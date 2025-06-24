@@ -11,9 +11,5 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "src/**/*.ts",
-    "../user/src/user.module/rdo/user.rdo.ts",
-    "../user/src/user.module/dto/create-user.dto.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }

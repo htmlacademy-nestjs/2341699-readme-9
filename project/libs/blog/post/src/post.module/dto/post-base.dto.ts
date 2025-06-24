@@ -15,6 +15,9 @@ import {
 import { PostValidatorOptions } from '../post.const';
 
 export class PostBaseDto {
+  @ApiProperty({ type: String, description: 'User id' })
+  userId: string;
+
   @ApiProperty({ type: String, description: 'Publication type' })
   @IsEnum(PostType)
   type: PostType;

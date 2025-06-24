@@ -9,7 +9,7 @@ export class PostCommentFactory implements EntityFactory<PostCommentEntity> {
     return new PostCommentEntity(entityPlainData);
   }
 
-  public createFromDto({ postId, commentText }: PostCommentDto, userId: string) {
+  public createFromDto({ userId, postId, commentText }: PostCommentDto) {
     return new PostCommentEntity({
       postId,
       commentText,

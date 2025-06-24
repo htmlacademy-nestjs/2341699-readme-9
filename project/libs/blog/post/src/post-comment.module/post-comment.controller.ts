@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
+import { UserIdDto } from '../post.module/dto/userId.dto';
 import { PostCommentDto } from './dto/post-comment.dto';
-import { TEST_USER_ID } from './post-comment.const';
+import { PostCommentApiResponseDescription } from './post-comment.const';
 import { PostCommentQuery } from './post-comment.query';
 import { PostCommentService } from './post-comment.service';
 
@@ -9,21 +10,21 @@ import { PostCommentService } from './post-comment.service';
 export class PostCommentController {
   constructor(private readonly postCommentService: PostCommentService) {}
 
-  @ApiOkResponse({ description: 'The post comments has been successfully founded' })
+  @ApiOkResponse({ description: PostCommentApiResponseDescription.COMMENT_FOUND })
   @Get('/')
   public async index(@Query() query: PostCommentQuery) {
     return await this.postCommentService.getByQuery(query);
   }
 
-  @ApiOkResponse({ description: 'The new post comment has been successfully created' })
+  @ApiOkResponse({ description: PostCommentApiResponseDescription.COMMENT_CREATED })
   @Post('/create')
-  public async createPost(@Body() dto: PostCommentDto) {
-    return (await this.postCommentService.create(dto, TEST_USER_ID)).toPOJO();
+  public async createComment(@Body() dto: PostCommentDto) {
+    return (await this.postCommentService.create(dto)).toPOJO();
   }
 
-  @ApiOkResponse({ description: 'The post comment has been successfully deleted' })
-  @Delete('/delete/:id')
-  public async deletePost(@Param('id') id: string) {
-    await this.postCommentService.delete(id, TEST_USER_ID);
+  @ApiOkResponse({ description: PostCommentApiResponseDescription.COMMENT_DELETED })
+  @Post('/delete/:id')
+  public async deleteComment(@Param('id') id: string, @Body() { userId }: UserIdDto) {
+    await this.postCommentService.delete(id, userId);
   }
 }

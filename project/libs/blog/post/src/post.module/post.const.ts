@@ -24,8 +24,6 @@ export const PostServiceException = {
   POST_ACCESS_ERROR: "Уou don't have access",
 };
 
-export const TEST_USER_ID = 'test-id';
-
 export const PostApiResponseDescription = {
   POST_FOUND: 'Post found',
   POSTS_FOUND: 'Posts found',

@@ -15,6 +15,7 @@ export { PostStatus } from './lib/types/blog/post-status.enum';
 export { PostLike } from './lib/types/blog/post-like.interface';
 export { PostComment } from './lib/types/blog/post-comment.interface';
 export { PostSortType } from './lib/types/blog/post-sort-type.enum';
+export { PostCount } from './lib/types/blog/post-count.interface';
 
 export { File } from './lib/types/file-vault/file.interface';
 export { StoredFile } from './lib/types/file-vault/stored-file.interface';

@@ -3,6 +3,10 @@ import { IsString, MaxLength, MinLength } from 'class-validator';
 import { PostCommentValidatorOptions } from '../post-comment.const';
 
 export class PostCommentDto {
+  @ApiProperty({ type: String, description: 'User ID' })
+  @IsString()
+  userId: string;
+
   @ApiProperty({ type: String, description: 'Post ID' })
   @IsString()
   postId?: string;

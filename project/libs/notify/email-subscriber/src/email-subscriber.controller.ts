@@ -3,14 +3,10 @@ import { Controller, Get } from '@nestjs/common';
 import { RabbitRouting } from '@project/core';
 import { CreatePostDto } from './dto/create-post.dto';
 import { EmailSubscriberService } from './email-subscriber.service';
-//import { MailService } from './mail-module/mail.service';
 
 @Controller()
 export class EmailSubscriberController {
-  constructor(
-    private readonly notifyService: EmailSubscriberService,
-    //private readonly mailService: MailService,
-  ) {}
+  constructor(private readonly notifyService: EmailSubscriberService) {}
 
   @RabbitSubscribe({
     exchange: 'readme.notify.income',
