@@ -27,3 +27,5 @@ export { RefreshTokenPayload } from './lib/interfaces/refresh-token-payload.inte
 
 export { RabbitRouting } from './lib/types/notify/rabbit-routing.enum';
 export { NotifyPost } from './lib/types/notify/notify-post.interface';
+
+export { UserIdDto } from './lib/dto/userId.dto';

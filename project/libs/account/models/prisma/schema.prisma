@@ -19,8 +19,6 @@ model User {
   subscribersCount  Int
 
   passwordHash      String
-  //subscribers       UserSubscriber[] @relation("subscribers")
-  //subscriptions     UserSubscriber[] @relation("subscriptions")
 
   @@map("users")
 }
@@ -35,14 +33,11 @@ model Token {
   @@map("tokens")
 }
 
-// model UserSubscriber {
-//   id                String   @id @default(uuid())
-//   userId            String
-//   subscriberId      String
-//   createdAt         DateTime @default(now())
+model UserSubscriber {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String   
+  subscriberId      String   
+  createdAt         DateTime @default(now())
 
-//   subscriber        User? @relation("subscriptions", fields: [subscriberId], references: [id])
-//   user              User? @relation("subscribers", fields: [userId], references: [id])
-
-//   @@map("subscribers")
-// }
+  @@map("subscribers")
+}

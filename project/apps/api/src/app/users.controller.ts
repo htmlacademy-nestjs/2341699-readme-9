@@ -18,8 +18,9 @@ import {
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes } from '@nestjs/swagger';
+import { ApiConsumes, ApiNoContentResponse } from '@nestjs/swagger';
 import { ChangePasswordDto, CreateUserDto, LoginUserDto } from '@project/authentication';
+import { InjectUserIdInterceptor } from '@project/interceptors';
 import { Express } from 'express';
 import ApplicationConfig from './app.config';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
@@ -93,6 +94,24 @@ export class UsersController {
   @Post('password')
   public async changePassword(@Body() dto: ChangePasswordDto) {
     const { data } = await this.httpService.axiosRef.post(`${this.appConfig.urls.auth}/password`, dto);
+    return data;
+  }
+
+  @ApiNoContentResponse()
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(InjectUserIdInterceptor)
+  @Post('/subscribe/:userId')
+  public async subscribe(@Param('userId') userId: string, @Body() dto) {
+    const { data } = await this.httpService.axiosRef.post(`${this.appConfig.urls.auth}/subscribe/${userId}`, dto);
+    return data;
+  }
+
+  @ApiNoContentResponse()
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(InjectUserIdInterceptor)
+  @Post('/unsubscribe/:userId')
+  public async unsubscribe(@Param('userId') userId: string, @Body() dto) {
+    const { data } = await this.httpService.axiosRef.post(`${this.appConfig.urls.auth}/unsubscribe/${userId}`, dto);
     return data;
   }
 }

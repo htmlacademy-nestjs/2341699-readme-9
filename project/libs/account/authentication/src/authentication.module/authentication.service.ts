@@ -50,23 +50,18 @@ export class AuthenticationService {
     try {
       await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
 
-      const tokens = {
-        accessToken: '',
-        refreshToken: '',
-      };
-
-      await Promise.all([
+      const [accessToken, refreshToken] = await Promise.all([
         this.jwtService.signAsync(accessTokenPayload),
         this.jwtService.signAsync(refreshTokenPayload, {
           secret: this.jwtOptions.refreshTokenSecret,
           expiresIn: this.jwtOptions.refreshTokenExpiresIn,
         }),
-      ]).then((result) => {
-        tokens.accessToken = result[0];
-        tokens.refreshToken = result[1];
-      });
+      ]);
 
-      return tokens;
+      return {
+        accessToken,
+        refreshToken,
+      };
     } catch (error) {
       // удаляем сессию из бд в случае ошибки
       await this.refreshTokenService.deleteRefreshSession(refreshTokenPayload.tokenId);
@@ -142,5 +137,13 @@ export class AuthenticationService {
 
     user.publicationsCount = postCount;
     await this.userRepository.update(user);
+  }
+
+  public async addSubscriber(userId: string, subscriberId: string) {
+    return await this.userRepository.addSubsriber(userId, subscriberId);
+  }
+
+  public async deleteSubscriber(userId: string, subscriberId: string) {
+    return await this.userRepository.deleteSubsriber(userId, subscriberId);
   }
 }

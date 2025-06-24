@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post, Put, Query, Req } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { UserIdDto } from '@project/core';
 import { Request } from 'express';
 import { PostDto } from './dto/post-dto.type';
-import { UserIdDto } from './dto/userId.dto';
 import { PostApiResponseDescription } from './post.const';
 import { BlogPostQuery } from './post.query';
 import { PostService } from './post.service';

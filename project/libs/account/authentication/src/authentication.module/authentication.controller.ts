@@ -2,12 +2,13 @@ import { Body, Controller, Get, Param, Post, Req, UnauthorizedException, UseGuar
 import {
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { PostCount } from '@project/core';
+import { PostCount, UserIdDto } from '@project/core';
 import { fillDto } from '@project/helpers';
 import { JwtAuthGuard } from '../guards/jwt-auth.guards';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
@@ -83,8 +84,21 @@ export class AuthenticationController {
     return fillDto(UserRdo, existUser.toPOJO());
   }
 
+  @ApiNoContentResponse()
   @Post('update-post-count')
   public async updatePostCount(@Body() dto: PostCount) {
     return await this.authService.updatePostCount(dto);
+  }
+
+  @ApiNoContentResponse()
+  @Post('/subscribe/:userId')
+  public async subscribe(@Param('userId') userId: string, @Body() dto: UserIdDto) {
+    return await this.authService.addSubscriber(userId, dto.userId);
+  }
+
+  @ApiNoContentResponse()
+  @Post('/unsubscribe/:userId')
+  public async unsubscribe(@Param('userId') userId: string, @Body() dto: UserIdDto) {
+    return await this.authService.deleteSubscriber(userId, dto.userId);
   }
 }
