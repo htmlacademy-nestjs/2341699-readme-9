@@ -1,6 +1,5 @@
 import { AuthUser, Entity, StorableEntity } from '@project/core';
 import { compare, genSalt, hash } from 'bcrypt';
-//import { UserSubscriber } from 'libs/shared/core/src/lib/types/account/user-subscriber.interface';
 import { SALT_ROUNDS } from './user.const';
 
 export class UserEntity extends Entity implements StorableEntity<AuthUser> {
@@ -11,8 +10,6 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
   public createdAt: Date;
   public publicationsCount: number;
   public subscribersCount: number;
-  //public subscribers?: UserSubscriber[];
-  //public subscriptions?: UserSubscriber[];
   public passwordHash: string;
 
   constructor(user?: AuthUser) {
@@ -33,8 +30,6 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
     this.createdAt = user.createdAt;
     this.publicationsCount = user.publicationsCount;
     this.subscribersCount = user.subscribersCount;
-    //this.subscribers = user.subscribers;
-    //this.subscriptions = user.subscriptions;
     this.passwordHash = user.passwordHash;
   }
 
@@ -48,8 +43,6 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
       createdAt: this.createdAt,
       publicationsCount: this.publicationsCount,
       subscribersCount: this.subscribersCount,
-      //subscribers: this.subscribers,
-      //subscriptions: this.subscriptions,
       passwordHash: this.passwordHash,
     };
   }

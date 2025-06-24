@@ -59,7 +59,64 @@ export class UserRepository {
     return (await this.client.user.findMany()).map((e) => this.createEntity(e)).filter((e) => e !== null);
   }
 
-  createEntity(item: User): UserEntity | null {
+  public async addSubsriber(userId: string, subscriberId: string) {
+    const existItem = await this.getSubscriber(userId, subscriberId);
+
+    // запись уже существует, выходим
+    if (existItem) return;
+
+    await this.client.userSubscriber.create({
+      data: {
+        userId,
+        subscriberId,
+      },
+    });
+
+    // обновляем кол-во подписчиков у пользователя на которого подписались
+    await this.refreshSubscribersCount(userId);
+  }
+
+  public async deleteSubsriber(userId: string, subscriberId: string) {
+    const existItem = await this.getSubscriber(userId, subscriberId);
+
+    // записи нет, выходим
+    if (!existItem) return;
+
+    await this.client.userSubscriber.delete({
+      where: {
+        id: existItem.id,
+      },
+    });
+
+    // обновляем кол-во подписчиков у пользователя от которого отписались
+    await this.refreshSubscribersCount(userId);
+  }
+
+  private async getSubscriber(userId: string, subscriberId: string) {
+    return await this.client.userSubscriber.findFirst({
+      where: {
+        userId,
+        subscriberId,
+      },
+    });
+  }
+
+  private async refreshSubscribersCount(userId: string) {
+    const subscribersCount = await this.client.userSubscriber.count({
+      where: {
+        userId,
+      },
+    });
+
+    await this.client.user.update({
+      where: { id: userId },
+      data: {
+        subscribersCount,
+      },
+    });
+  }
+
+  private createEntity(item: User): UserEntity | null {
     return item ? this.entityFactory.create(item as ReturnType<UserEntity['toPOJO']>) : null;
   }
 }

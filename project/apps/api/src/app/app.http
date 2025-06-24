@@ -3,7 +3,7 @@ POST http://localhost:3010/api/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "user6@test.com",
+    "email": "user2@test.com",
     "password": "123456",
     "firstname": "Keks",
     "lastname": "Smith"
@@ -41,7 +41,7 @@ Content-Type: image/jpeg
 ###
 
 # Получение пользователя по Id
-GET http://localhost:3010/api/users/763de34a-5174-4045-a049-a32421ffb61f HTTP/1.1
+GET http://localhost:3010/api/users/665347f8-faa1-4dc7-bccd-4d0f84420924 HTTP/1.1
 ###
 
 # Проверка аутентификации
@@ -49,7 +49,7 @@ POST http://localhost:3010/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user@test.com",
+  "email": "user2@test.com",
   "password": "123456"
 }
 ###
@@ -151,4 +151,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjNkZTM0Y
 
 # Получение комментариев по id публикации
 GET http://localhost:3010/api/blog/comments/get?postId=c163f24e-c264-475c-a989-2bc36704b94a HTTP/1.1
+###
+
+
+# Подписка на пользователя
+POST http://localhost:3010/api/users/subscribe/665347f8-faa1-4dc7-bccd-4d0f84420924 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MTgxY2QzZi05ODBkLTRiM2UtYjllNy1kOWU3NTFjODA1MTciLCJlbWFpbCI6InVzZXIyQHRlc3QuY29tIiwiZmlyc3RuYW1lIjoiS2VrcyIsImxhc3RuYW1lIjoiU21pdGgiLCJpYXQiOjE3NTA3NjYwNTQsImV4cCI6MTc1MDc2OTA1NH0.U6j1RhGGqJuP09i1YX_AlB0AJIq8qVrKbwwQhKRRo4Q
+###
+
+# Отписка от пользователя
+POST http://localhost:3010/api/users/unsubscribe/665347f8-faa1-4dc7-bccd-4d0f84420924 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MTgxY2QzZi05ODBkLTRiM2UtYjllNy1kOWU3NTFjODA1MTciLCJlbWFpbCI6InVzZXIyQHRlc3QuY29tIiwiZmlyc3RuYW1lIjoiS2VrcyIsImxhc3RuYW1lIjoiU21pdGgiLCJpYXQiOjE3NTA3NjYwNTQsImV4cCI6MTc1MDc2OTA1NH0.U6j1RhGGqJuP09i1YX_AlB0AJIq8qVrKbwwQhKRRo4Q
 ###

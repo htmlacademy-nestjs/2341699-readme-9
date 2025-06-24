@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
-import { UserIdDto } from '../post.module/dto/userId.dto';
+import { UserIdDto } from '@project/core';
 import { PostCommentDto } from './dto/post-comment.dto';
 import { PostCommentApiResponseDescription } from './post-comment.const';
 import { PostCommentQuery } from './post-comment.query';

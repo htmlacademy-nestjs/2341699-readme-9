@@ -138,4 +138,12 @@ export class AuthenticationService {
     user.publicationsCount = postCount;
     await this.userRepository.update(user);
   }
+
+  public async addSubscriber(userId: string, subscriberId: string) {
+    return await this.userRepository.addSubsriber(userId, subscriberId);
+  }
+
+  public async deleteSubscriber(userId: string, subscriberId: string) {
+    return await this.userRepository.deleteSubsriber(userId, subscriberId);
+  }
 }
