@@ -50,7 +50,7 @@ export class AuthenticationService {
     try {
       await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
 
-      const result = await Promise.all([
+      const [accessToken, refreshToken] = await Promise.all([
         this.jwtService.signAsync(accessTokenPayload),
         this.jwtService.signAsync(refreshTokenPayload, {
           secret: this.jwtOptions.refreshTokenSecret,
@@ -59,8 +59,8 @@ export class AuthenticationService {
       ]);
 
       return {
-        accessToken: result[0],
-        refreshToken: result[1],
+        accessToken,
+        refreshToken,
       };
     } catch (error) {
       // удаляем сессию из бд в случае ошибки
