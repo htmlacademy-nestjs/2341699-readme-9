@@ -111,7 +111,7 @@ export class PostService {
 
     if (!post) throw new NotFoundException(PostServiceException.POST_NOT_FOUND);
 
-    this.postLikeRepository.addPostLike(id, userId);
+    await this.postLikeRepository.addPostLike(id, userId);
   }
 
   public async deleteLike(id: string, userId: string) {
@@ -119,7 +119,7 @@ export class PostService {
 
     if (!post) throw new NotFoundException(PostServiceException.POST_NOT_FOUND);
 
-    this.postLikeRepository.deletePostLike(id, userId);
+    await this.postLikeRepository.deletePostLike(id, userId);
   }
 
   public async getPostCountByUserId(userId: string) {
